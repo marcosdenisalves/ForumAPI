@@ -45,10 +45,8 @@ public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 	@Override //Configuracoes de autorização
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/topicos").permitAll() //Permite listar todos
-			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll() //Permite busca por parametros
-			.antMatchers(HttpMethod.POST, "/auth").permitAll()
-			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+			.antMatchers(HttpMethod.GET, AUTH_WHITELIST_GET).permitAll() // Permite requisiçoes para os métodos do tipo GET
+			.antMatchers(HttpMethod.POST, AUTH_WHITELIST_POST).permitAll() // Permite requisiçoes para os métodos do tipo POST
 			.anyRequest().authenticated() //Para indicar que outras URLs que não foram configuradas devem ter acesso restrito
 			.and().csrf().disable() //Disabilita protecao contra ataques csrf
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Disabilita criacao de sessao
@@ -57,5 +55,23 @@ public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 	
 	@Override //Configuracoes de recursos estaticos(js, css, imagens, e etc..)
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+		.antMatchers(AUTH_WHITELIST);
 	}
+
+	private static final String[] AUTH_WHITELIST = {
+			"/swagger-resources/**",
+			"/swagger-ui.html",
+			"/v2/api-docs",
+			"/webjars/**"
+	};
+
+	private static final String[] AUTH_WHITELIST_GET = {
+			"/topicos/*",
+			"/actuator"
+	};
+
+	private static final String[] AUTH_WHITELIST_POST = {
+			"/auth"
+	};
 }
