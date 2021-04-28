@@ -48,6 +48,7 @@ public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 			.antMatchers(HttpMethod.GET, "/topicos").permitAll() //Permite listar todos
 			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll() //Permite busca por parametros
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
+			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 			.anyRequest().authenticated() //Para indicar que outras URLs que não foram configuradas devem ter acesso restrito
 			.and().csrf().disable() //Disabilita protecao contra ataques csrf
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Disabilita criacao de sessao
