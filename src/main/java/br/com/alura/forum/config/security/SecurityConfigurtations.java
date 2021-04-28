@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.alura.forum.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +22,12 @@ public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private AutenticacaoService autenticacaoService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private TokenService tokenService;
 	
 	@Bean
 	@Override //Disponibiliza uma instancia dessa classe para o spring
@@ -41,7 +50,8 @@ public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			.anyRequest().authenticated() //Para indicar que outras URLs que não foram configuradas devem ter acesso restrito
 			.and().csrf().disable() //Disabilita protecao contra ataques csrf
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //Disabilita criacao de sessao 
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Disabilita criacao de sessao
+			.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); //Diz para o spring qual filtro ele deve adicionar e antes de qual filtro
 	}
 	
 	@Override //Configuracoes de recursos estaticos(js, css, imagens, e etc..)
