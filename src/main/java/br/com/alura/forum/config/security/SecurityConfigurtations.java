@@ -17,9 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import br.com.alura.forum.repository.UsuarioRepository;
 
-@Profile("prod")
 @Configuration
 @EnableWebSecurity
+@Profile(value= {"prod", "test"})
 public class SecurityConfigurtations extends WebSecurityConfigurerAdapter{
 	
 	private static final String[] AUTH_WHITELIST = {

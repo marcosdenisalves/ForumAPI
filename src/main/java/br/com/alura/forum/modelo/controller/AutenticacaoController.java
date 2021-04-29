@@ -18,9 +18,9 @@ import br.com.alura.forum.config.security.TokenService;
 import br.com.alura.forum.modelo.dto.LoginDTO;
 import br.com.alura.forum.modelo.dto.TokenDto;
 
-@Profile("prod")
 @RestController
 @RequestMapping("/auth")
+@Profile(value= {"prod", "test"})
 public class AutenticacaoController {
 
 	@Autowired
