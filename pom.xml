@@ -14,7 +14,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>forum</name>
 	<description>Demo project for Spring Boot</description>
-	<packaging>war</packaging>
 	
 	<properties>
 		<java.version>1.8</java.version>
@@ -88,12 +87,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope> <!-- ao gerar o build não incluir a biblioteca do tomcat no war -->
 		</dependency>
 	</dependencies>
 
